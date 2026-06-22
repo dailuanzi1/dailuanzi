@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黛乱子乐队 DaiLuanZi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --black: #0a0a0a;
+            --black-soft: #141414;
+            --black-mid: #1a1a1a;
+            --pink-dirty: #c9a0a0;
+            --pink-deep: #b08888;
+            --pink-mid: #d4b0b0;
+            --pink-light: #e8d0d0;
+            --pink-pale: #f0e0e0;
+            --white: #f5f0f0;
+            --white-warm: #faf5f5;
+        }
+        body {
+            font-family: "Noto Sans SC", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.7;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-80px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(80px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes shrinkIn { from { opacity: 0; transform: scale(1.15); } to { opacity: 1; transform: scale(1); } }
+        @keyframes floatUp { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes rotateIn { from { opacity: 0; transform: rotate(-8deg) scale(0.9); } to { opacity: 1; transform: rotate(0) scale(1); } }
+        @keyframes breathe { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+        @keyframes drift { 0% { transform: translate(0, 0); } 33% { transform: translate(8px, -6px); } 66% { transform: translate(-4px, 4px); } 100% { transform: translate(0, 0); } }
+        @keyframes lineGrow { from { width: 0; } to { width: 60px; } }
+        @keyframes dotPulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.5); opacity: 1; } }
+
+        .anim-fade-up { animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .anim-fade { animation: fadeIn 1.2s ease-out forwards; opacity: 0; }
+        .anim-scale { animation: scaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .anim-slide-left { animation: slideInLeft 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .anim-slide-right { animation: slideInRight 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .anim-shrink { animation: shrinkIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .anim-rotate { animation: rotateIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .anim-float { animation: floatUp 5s ease-in-out infinite; }
+        .anim-drift { animation: drift 8s ease-in-out infinite; }
+        .anim-breathe { animation: breathe 4s ease-in-out infinite; }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+        .delay-7 { animation-delay: 0.7s; }
+        .delay-8 { animation-delay: 0.8s; }
+        .delay-9 { animation-delay: 0.9s; }
+        .delay-10 { animation-delay: 1.0s; }
+        .delay-12 { animation-delay: 1.2s; }
+        .delay-15 { animation-delay: 1.5s; }
+
+        .geo-guitar { position: absolute; width: 80px; height: 140px; opacity: 0.06; pointer-events: none; }
+        .geo-guitar::before { content: ''; position: absolute; width: 40px; height: 60px; background: currentColor; border-radius: 50% 50% 45% 45%; bottom: 0; left: 20px; }
+        .geo-guitar::after { content: ''; position: absolute; width: 12px; height: 80px; background: currentColor; top: 0; left: 34px; border-radius: 6px 6px 0 0; }
+        .geo-drum { position: absolute; width: 100px; height: 60px; opacity: 0.05; pointer-events: none; }
+        .geo-drum::before { content: ''; position: absolute; width: 100px; height: 50px; background: currentColor; border-radius: 50%; top: 0; }
+        .geo-drum::after { content: ''; position: absolute; width: 80px; height: 40px; background: currentColor; border-radius: 0 0 40px 40px; bottom: 0; left: 10px; }
+        .geo-mic { position: absolute; width: 30px; height: 100px; opacity: 0.06; pointer-events: none; }
+        .geo-mic::before { content: ''; position: absolute; width: 24px; height: 30px; background: currentColor; border-radius: 50%; top: 0; left: 3px; }
+        .geo-mic::after { content: ''; position: absolute; width: 4px; height: 70px; background: currentColor; bottom: 0; left: 13px; }
+        .geo-star { position: absolute; width: 60px; height: 60px; opacity: 0.04; pointer-events: none; }
+        .geo-star::before { content: '★'; font-size: 60px; color: currentColor; line-height: 1; }
+        .geo-circle { position: absolute; width: 120px; height: 120px; border-radius: 50%; border: 2px solid currentColor; opacity: 0.05; pointer-events: none; }
+        .geo-line-h { position: absolute; height: 1px; background: currentColor; opacity: 0.1; pointer-events: none; }
+        .geo-line-v { position: absolute; width: 1px; background: currentColor; opacity: 0.1; pointer-events: none; }
+        .geo-dot { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.3; pointer-events: none; }
+
+        .deco-line { display: block; width: 40px; height: 1px; background: currentColor; opacity: 0.4; margin: 16px 0; }
+        .deco-line-long { display: block; width: 100%; height: 1px; background: currentColor; opacity: 0.15; margin: 20px 0; }
+        .deco-dots { display: flex; gap: 8px; margin: 12px 0; }
+        .deco-dots span { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.5; animation: dotPulse 2s ease-in-out infinite; }
+        .deco-dots span:nth-child(2) { animation-delay: 0.3s; }
+        .deco-dots span:nth-child(3) { animation-delay: 0.6s; }
+
+        .page { width: 100%; min-height: 100vh; position: relative; overflow: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+        .block { position: relative; overflow: hidden; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease; }
+        .block:hover { transform: translateY(-4px) scale(1.01); z-index: 10; }
+        .block::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.08) 0%, transparent 60%); pointer-events: none; z-index: 1; }
+        .block::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 60%, rgba(0,0,0,0.15) 0%, transparent 50%); pointer-events: none; z-index: 1; }
+
+        .block-inner { position: relative; z-index: 2; padding: 40px; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+        .block-inner-center { position: relative; z-index: 2; padding: 40px; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+
+        .bg-pink-dirty { background-color: var(--pink-dirty); }
+        .bg-pink-deep { background-color: var(--pink-deep); }
+        .bg-pink-mid { background-color: var(--pink-mid); }
+        .bg-pink-light { background-color: var(--pink-light); }
+        .bg-pink-pale { background-color: var(--pink-pale); }
+        .bg-white { background-color: var(--white); }
+        .bg-white-warm { background-color: var(--white-warm); }
+        .bg-black { background-color: var(--black); }
+        .bg-black-soft { background-color: var(--black-soft); }
+        .bg-black-mid { background-color: var(--black-mid); }
+
+        .text-pink-dirty { color: var(--pink-dirty); }
+        .text-pink-deep { color: var(--pink-deep); }
+        .text-pink-mid { color: var(--pink-mid); }
+        .text-pink-light { color: var(--pink-light); }
+        .text-white { color: var(--white); }
+        .text-white-warm { color: var(--white-warm); }
+        .text-dark { color: #2d1a1a; }
+        .text-mid { color: #5a3a3a; }
+        .text-muted { color: rgba(245, 240, 240, 0.5); }
+
+        .text-hero { font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 900; letter-spacing: 0.08em; line-height: 1.05; }
+        .text-xxl { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 800; letter-spacing: 0.04em; line-height: 1.1; }
+        .text-xl { font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 700; letter-spacing: 0.02em; line-height: 1.3; }
+        .text-lg { font-size: clamp(1rem, 2vw, 1.3rem); font-weight: 600; line-height: 1.6; }
+        .text-md { font-size: 0.95rem; font-weight: 400; line-height: 1.9; }
+        .text-sm { font-size: 0.85rem; font-weight: 400; line-height: 1.8; }
+        .text-xs { font-size: 0.75rem; font-weight: 400; line-height: 1.6; letter-spacing: 0.1em; }
+        .text-jp { font-family: "Noto Sans JP", sans-serif; font-weight: 300; letter-spacing: 0.05em; }
+        .text-bold { font-weight: 700; }
+        .text-italic { font-style: italic; }
+        .text-upper { text-transform: uppercase; letter-spacing: 0.12em; }
+
+        .mt-8 { margin-top: 8px; }
+        .mt-12 { margin-top: 12px; }
+        .mt-16 { margin-top: 16px; }
+        .mt-24 { margin-top: 24px; }
+        .mt-32 { margin-top: 32px; }
+        .mt-48 { margin-top: 48px; }
+        .mb-8 { margin-bottom: 8px; }
+        .mb-12 { margin-bottom: 12px; }
+        .mb-16 { margin-bottom: 16px; }
+        .mb-24 { margin-bottom: 24px; }
+        .p-20 { padding: 20px; }
+        .p-30 { padding: 30px; }
+        .p-40 { padding: 40px; }
+        .p-50 { padding: 50px; }
+        .p-60 { padding: 60px; }
+
+        .tag { display: inline-block; background-color: rgba(201, 160, 160, 0.2); color: var(--pink-dirty); padding: 5px 14px; margin: 4px; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.05em; transition: all 0.3s ease; }
+        .tag:hover { background-color: rgba(201, 160, 160, 0.4); transform: scale(1.05); }
+        .tag-solid { display: inline-block; background-color: var(--pink-deep); color: var(--white); padding: 6px 16px; margin: 4px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; transition: all 0.3s ease; }
+        .tag-solid:hover { background-color: var(--pink-dirty); transform: scale(1.05); }
+        .tag-outline { display: inline-block; border: 1px solid var(--pink-deep); color: var(--pink-deep); padding: 5px 14px; margin: 4px; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.05em; transition: all 0.3s ease; }
+        .tag-outline:hover { background-color: var(--pink-deep); color: var(--white); transform: scale(1.05); }
+
+        .email { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; transition: opacity 0.3s ease; }
+        .email:hover { opacity: 0.6; }
+
+        .list-item { padding: 10px 0; padding-left: 24px; position: relative; border-left: 2px solid var(--pink-dirty); margin-bottom: 10px; transition: all 0.3s ease; }
+        .list-item::before { content: ''; position: absolute; left: -6px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; border-radius: 50%; background: var(--pink-dirty); opacity: 0.5; }
+        .list-item:hover { padding-left: 32px; border-left-color: var(--pink-light); }
+        .list-item:hover::before { opacity: 1; transform: translateY(-50%) scale(1.3); }
+
+        .grid { display: grid; gap: 8px; width: 100%; }
+        .grid-asymmetric { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 8px; }
+        .grid-asymmetric-rev { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 8px; }
+        .grid-triple { display: grid; grid-template-columns: 1fr 1.2fr 0.8fr; gap: 8px; }
+        .grid-circle { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        .grid-mixed { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 8px; }
+        .grid-mixed .span-2 { grid-column: span 2; }
+
+        .shape-circle { border-radius: 50%; aspect-ratio: 1 / 1; }
+        .shape-rounded { border-radius: 24px; }
+        .shape-pill { border-radius: 100px; }
+
+        .seamless-section { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+        .seamless-section .block { margin: 0; border-radius: 0; }
+
+        .irregular-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: minmax(120px, auto); gap: 8px; }
+        .irregular-grid .block:nth-child(1) { grid-column: span 7; grid-row: span 2; }
+        .irregular-grid .block:nth-child(2) { grid-column: span 5; grid-row: span 1; }
+        .irregular-grid .block:nth-child(3) { grid-column: span 3; grid-row: span 2; }
+        .irregular-grid .block:nth-child(4) { grid-column: span 4; grid-row: span 1; }
+        .irregular-grid .block:nth-child(5) { grid-column: span 5; grid-row: span 1; }
+        .irregular-grid .block:nth-child(6) { grid-column: span 4; grid-row: span 1; }
+        .irregular-grid .block:nth-child(7) { grid-column: span 3; grid-row: span 1; }
+        .irregular-grid .block:nth-child(8) { grid-column: span 5; grid-row: span 1; }
+
+        .circle-layout { position: relative; min-height: 600px; display: flex; align-items: center; justify-content: center; }
+        .circle-center { position: relative; z-index: 3; width: 280px; height: 280px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: var(--pink-deep); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .circle-center:hover { transform: scale(1.08); }
+        .circle-satellite { position: absolute; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .circle-satellite:hover { transform: scale(1.1) !important; z-index: 20; }
+        .sat-1 { top: 5%; left: 10%; width: 180px; }
+        .sat-2 { top: 8%; right: 12%; width: 200px; }
+        .sat-3 { top: 40%; left: 2%; width: 160px; }
+        .sat-4 { top: 35%; right: 3%; width: 170px; }
+        .sat-5 { bottom: 15%; left: 15%; width: 190px; }
+        .sat-6 { bottom: 10%; right: 10%; width: 180px; }
+        .sat-7 { bottom: 5%; left: 45%; width: 150px; }
+
+        @media (max-width: 768px) {
+            .grid-asymmetric, .grid-asymmetric-rev, .grid-triple, .grid-circle, .seamless-section { grid-template-columns: 1fr; }
+            .grid-mixed .span-2 { grid-column: span 1; }
+            .irregular-grid { grid-template-columns: 1fr; }
+            .irregular-grid .block { grid-column: span 1 !important; grid-row: span 1 !important; }
+            .circle-layout { min-height: auto; flex-direction: column; gap: 16px; padding: 40px 0; }
+            .circle-center { width: 200px; height: 200px; position: relative; }
+            .circle-satellite { position: relative; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important; width: 100% !important; }
+            .text-hero { font-size: 2.5rem; }
+            .text-xxl { font-size: 1.8rem; }
+            .block-inner, .block-inner-center { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== 第一页 ==================== -->
+<div class="page" id="page1">
+    <div class="geo-guitar text-pink-dirty" style="top: 10%; left: 5%; transform: rotate(15deg); animation: drift 10s ease-in-out infinite;"></div>
+    <div class="geo-drum text-pink-light" style="top: 60%; right: 8%; animation: drift 12s ease-in-out infinite reverse;"></div>
+    <div class="geo-mic text-pink-mid" style="bottom: 20%; left: 15%; transform: rotate(-10deg); animation: drift 9s ease-in-out infinite;"></div>
+    <div class="geo-star text-pink-dirty" style="top: 30%; right: 20%; animation: drift 11s ease-in-out infinite;"></div>
+    <div class="geo-circle text-pink-light" style="top: 5%; left: 40%; animation: breathe 6s ease-in-out infinite;"></div>
+    <div class="geo-line-h text-pink-dirty" style="top: 25%; left: 0; width: 30%; animation: lineGrow 2s ease-out forwards;"></div>
+    <div class="geo-line-v text-pink-mid" style="top: 0; right: 25%; height: 40%; animation: lineGrow 2s ease-out 0.5s forwards;"></div>
+    <div class="geo-dot text-pink-dirty" style="top: 15%; left: 30%; animation: dotPulse 3s ease-in-out infinite;"></div>
+    <div class="geo-dot text-pink-light" style="top: 45%; right: 15%; animation: dotPulse 3s ease-in-out 1s infinite;"></div>
+    <div class="geo-dot text-pink-mid" style="bottom: 30%; left: 50%; animation: dotPulse 3s ease-in-out 2s infinite;"></div>
+
+    <div class="container" style="margin-top: 24px;">
+        <div class="block bg-pink-deep anim-shrink" style="border-radius: 0;">
+            <div class="block-inner-center">
+                <div class="text-xs text-upper text-white anim-fade delay-1" style="opacity: 0.7;">重慶 · 渝中区 · Chongqing Yuzhong</div>
+                <div class="deco-dots" style="justify-content: center; margin: 16px 0;"><span></span><span></span><span></span></div>
+                <div class="text-hero text-white mt-8 anim-scale delay-2">黛乱子乐队</div>
+                <div class="text-xl text-jp text-white mt-16 anim-fade delay-3">ダイランスイバンド</div>
+                <div class="deco-line" style="margin: 24px auto; background: var(--white); opacity: 0.3;"></div>
+                <div class="text-sm text-white mt-8 anim-fade delay-4" style="opacity: 0.8;">2025年5月21日結成 · 重慶渝中区に根ざす</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="grid-asymmetric">
+            <div class="block bg-pink-dirty anim-fade-up delay-1" style="min-height: 320px;">
+                <div class="block-inner">
+                    <div class="text-xs text-upper text-white anim-fade delay-1" style="opacity: 0.6;">結成日 · Established</div>
+                    <div class="deco-line" style="background: var(--white); opacity: 0.3;"></div>
+                    <div class="text-xxl text-white mt-8 anim-scale delay-2">2025</div>
+                    <div class="text-xl text-white mt-8 anim-scale delay-3">5月21日</div>
+                    <div class="text-lg text-white mt-24 anim-fade delay-4">正式成立</div>
+                    <div class="text-sm text-jp text-white mt-8 anim-fade delay-5" style="opacity: 0.7;">正式に結成</div>
+                    <div class="text-xs text-white mt-16 anim-fade delay-6" style="opacity: 0.5;">Rooted in Chongqing Yuzhong District</div>
+                </div>
+            </div>
+            <div class="block bg-white anim-fade-up delay-2" style="min-height: 320px;">
+                <div class="block-inner">
+                    <div class="text-xs text-upper text-pink-deep anim-fade delay-1" style="opacity: 0.7;">Core Belief · 核心理念</div>
+                    <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3;"></div>
+                    <div class="text-xl text-dark text-bold mt-16 anim-scale delay-3">我们穷极一生追求的事</div>
+                    <div class="text-xl text-dark text-bold mt-16 anim-scale delay-4">让你们紧紧裹着黛乱子</div>
+                    <div class="text-sm text-jp text-mid mt-24 anim-fade delay-5">一生をかけて追い求めることは、あなたたちを黛乱子に包み込むこと</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="block bg-white anim-fade-up" style="position: relative;">
+            <div class="block-inner">
+                <div class="text-xs text-upper text-pink-deep anim-fade delay-1" style="opacity: 0.7;">Music Style · 音楽スタイル</div>
+                <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3;"></div>
+                <div class="text-xl text-dark text-bold mt-16 anim-scale delay-2">作为新盯鞋摇滚乐队</div>
+                <div class="text-md text-dark mt-16 anim-fade-up delay-3">作品多维蹂躏了Grunge粗粝撕裂的内核，交织梦幻失真的盯鞋音墙，完成两种风格的多面交汇碰撞，不局限单一曲风框架，在噪音与温柔之间建立黛乱子的听觉边界</div>
+                <div class="text-sm text-jp text-mid mt-16 anim-fade delay-4">新しいシューゲイズロックバンドとして、作品はグランジの粗削りで引き裂かれる核を多角的に蹂躙し、夢幻的で歪んだシューゲイズの音の壁を交錯させ、二つのスタイルの多面的な交差と衝突を完成させる</div>
+                <div class="mt-24">
+                    <span class="tag-solid anim-scale delay-1">新盯鞋摇滚</span>
+                    <span class="tag anim-scale delay-2">シューゲイズ</span>
+                    <span class="tag anim-scale delay-3">グランジ</span>
+                    <span class="tag anim-scale delay-4">梦幻失真</span>
+                    <span class="tag anim-scale delay-5">夢幻的ディストーション</span>
+                    <span class="tag anim-scale delay-6">噪音音墙</span>
+                    <span class="tag anim-scale delay-7">ノイズウォール</span>
+                </div>
+            </div>
+            <div style="position: absolute; right: 40px; top: 50%; transform: translateY(-50%); width: 1px; height: 60%; background: var(--pink-light); opacity: 0.3;"></div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="grid-asymmetric-rev">
+            <div class="block bg-pink-light anim-slide-left" style="min-height: 300px;">
+                <div class="block-inner">
+                    <div class="text-xs text-upper text-mid anim-fade delay-1" style="opacity: 0.7;">Band Name Origin · バンド名の由来</div>
+                    <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3;"></div>
+                    <div class="text-xl text-dark text-bold mt-16 anim-scale delay-2">乐队名称由来</div>
+                    <div class="text-md text-dark mt-16 anim-fade-up delay-3">取名源自粉黛乱子草，粉黛乱子随四季流转深浅色调，我们以此意象投射内核——接纳所有小众、边缘、不被定义的群体，包容每一种截然不同的情绪与人生</div>
+                    <div class="text-sm text-jp text-mid mt-16 anim-fade delay-4">バンド名はコキアから。四季を通じて色調が変化するように、小さな、境界の、定義されないすべての人々を受け入れる</div>
+                </div>
+            </div>
+            <div class="block bg-pink-pale anim-slide-right" style="min-height: 300px;">
+                <div class="block-inner">
+                    <div class="text-xs text-upper text-mid anim-fade delay-1" style="opacity: 0.7;">Visual Identity · ビジュアルアイデンティティ</div>
+                    <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3;"></div>
+                    <div class="text-lg text-dark text-bold mt-16 anim-scale delay-2">视觉体系</div>
+                    <div class="text-md text-dark mt-16 anim-fade-up delay-3">视觉体系以大面积粉色作为核心标识，柔和底色对冲摇滚自带的尖锐冲突，形成温柔又锋利的独特视觉符号</div>
+                    <div class="text-sm text-jp text-mid mt-16 anim-fade delay-4">ピンクを大面積で使用し、ロックの鋭い対立を柔らかな底色で相殺する</div>
+                    <div class="text-xs text-mid mt-24 anim-fade delay-5" style="opacity: 0.5;">Pink Core · ソフトコントラスト · 鋭いシンボル</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="block bg-pink-deep anim-shrink" style="min-height: 280px;">
+            <div class="block-inner-center">
+                <div class="text-xs text-upper text-white mb-16 anim-fade delay-1" style="opacity: 0.6;">Inclusion · 包摂</div>
+                <div class="deco-dots" style="justify-content: center; margin-bottom: 16px;"><span style="background: var(--white);"></span><span style="background: var(--white);"></span><span style="background: var(--white);"></span></div>
+                <div class="text-xxl text-white anim-scale delay-2">接纳所有小众、边缘、不被定义的群体</div>
+                <div class="text-xl text-white mt-24 anim-scale delay-3">包容每一种截然不同的情绪与人生</div>
+                <div class="text-sm text-jp text-white mt-32 anim-fade delay-4" style="opacity: 0.7;">小さな、境界の、定義されないすべての人々を受け入れる。それぞれ異なる感情と人生を包み込む</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="grid-triple">
+            <div class="block bg-pink-dirty anim-scale delay-1" style="min-height: 200px;">
+                <div class="block-inner-center">
+                    <div class="text-xs text-upper text-white anim-fade delay-1" style="opacity: 0.6;">Year · 年</div>
+                    <div class="deco-line" style="background: var(--white); opacity: 0.3; margin: 12px auto;"></div>
+                    <div class="text-xxl text-white mt-8 anim-scale delay-2">2026</div>
+                    <div class="text-xs text-jp text-white mt-8 anim-fade delay-3" style="opacity: 0.5;">令和八年</div>
+                </div>
+            </div>
+            <div class="block bg-white anim-scale delay-2" style="min-height: 200px;">
+                <div class="block-inner-center">
+                    <div class="text-xs text-upper text-pink-deep anim-fade delay-1" style="opacity: 0.7;">Month · 月</div>
+                    <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3; margin: 12px auto;"></div>
+                    <div class="text-xxl text-pink-deep mt-8 anim-scale delay-3">5</div>
+                    <div class="text-lg text-pink mt-8 anim-scale delay-4">May · 五月</div>
+                </div>
+            </div>
+            <div class="block bg-pink-light anim-scale delay-3" style="min-height: 200px;">
+                <div class="block-inner-center">
+                    <div class="text-xs text-upper text-mid anim-fade delay-1" style="opacity: 0.7;">Day · 日</div>
+                    <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3; margin: 12px auto;"></div>
+                    <div class="text-xxl text-dark mt-8 anim-scale delay-4">21</div>
+                    <div class="text-xs text-jp text-mid mt-8 anim-fade delay-5" style="opacity: 0.5;">二十一日</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="block bg-white anim-fade-up" style="min-height: 260px;">
+            <div class="block-inner">
+                <div class="text-xs text-upper text-pink-deep anim-fade delay-1" style="opacity: 0.7;">Official Community Launch · 公式コミュニティ開設</div>
+                <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3;"></div>
+                <div class="text-xl text-dark text-bold mt-16 anim-scale delay-2">DaiLuanZi官方社区全平台同步上线</div>
+                <div class="text-md text-dark mt-16 anim-fade-up delay-3">乐队唯一官方乐迷集散地，我们始终行进在乐队完整美学闭环的第一线，从词曲创作、视觉设计、策划到周边，全部由乐队成员自主摸索，否定流水线，完整保留原生创作表达</div>
+                <div class="text-sm text-jp text-mid mt-16 anim-fade delay-4">バンド唯一の公式ファンコミュニティ。作詞作曲、ビジュアルデザイン、企画からグッズまで、すべてバンドメンバーが自主的に模索。流れ作業を否定し、生の創作表現を完全に保持する</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="seamless-section">
+            <div class="block bg-pink-dirty anim-slide-left" style="min-height: 320px;">
+                <div class="block-inner">
+                    <div class="text-xs text-upper text-white anim-fade delay-1" style="opacity: 0.7;">Lyric Philosophy · 詞の理念</div>
+                    <div class="deco-line" style="background: var(--white); opacity: 0.3;"></div>
+                    <div class="text-xl text-white text-bold mt-16 anim-scale delay-2">乐队词作拒绝直白浅薄的情绪输出</div>
+                    <div class="text-md text-white mt-16 anim-fade-up delay-3">留白绵长、直击人心深远的文字，字句藏有多解读，留给听众自我拆解、共情思考</div>
+                    <div class="text-sm text-jp text-white mt-16 anim-fade delay-4" style="opacity: 0.8;">余白が長く、心に深く届く言葉。各句に多様な解釈を含み、聴き手に自己分解と共感の思考を残す</div>
+                </div>
+            </div>
+            <div class="block bg-pink-light anim-slide-right" style="min-height: 320px;">
+                <div class="block-inner">
+                    <div class="text-xs text-upper text-mid anim-fade delay-1" style="opacity: 0.7;">Creative Core · 創作の核心</div>
+                    <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3;"></div>
+                    <div class="text-lg text-dark text-bold mt-16 anim-scale delay-2">创作核心诉求始终纯粹</div>
+                    <div class="text-md text-dark mt-16 anim-fade-up delay-3">祈愿一切小众、不被大众接纳的群体，也在旋律与文字里被看见、被接纳、被拥抱</div>
+                    <div class="text-sm text-jp text-mid mt-16 anim-fade delay-4">小さな、大衆に受け入れられないすべての人々が、旋律と言葉の中で見られ、受け入れられ、抱きしめられることを願う</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="block bg-pink-pale anim-fade-up" style="min-height: 300px;">
+            <div class="block-inner">
+                <div class="text-xs text-upper text-mid anim-fade delay-1" style="opacity: 0.7;">Website Updates · ウェブサイト更新</div>
+                <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3;"></div>
+                <div class="text-xl text-dark text-bold mt-16 anim-scale delay-2">此网站会持续同步以下内容</div>
+                <div class="text-md text-dark mt-16 anim-fade-up delay-3">首张专辑全部Demo、终版录音进度</div>
+                <div class="grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 20px; gap: 8px;">
+                    <div class="block bg-white anim-scale delay-1" style="padding: 20px;">
+                        <div class="text-sm text-dark text-bold">线下专场演出</div>
+                        <div class="text-xs text-jp text-mid mt-8">ソロショー</div>
+                        <div class="text-xs text-mid mt-4" style="opacity: 0.5;">Solo Shows</div>
+                    </div>
+                    <div class="block bg-white anim-scale delay-2" style="padding: 20px;">
+                        <div class="text-sm text-dark text-bold">联合巡演</div>
+                        <div class="text-xs text-jp text-mid mt-8">ジョイントツアー</div>
+                        <div class="text-xs text-mid mt-4" style="opacity: 0.5;">Joint Tours</div>
+                    </div>
+                    <div class="block bg-white anim-scale delay-3" style="padding: 20px;">
+                        <div class="text-sm text-dark text-bold">Livehouse拼盘</div>
+                        <div class="text-xs text-jp text-mid mt-8">ライブハウス</div>
+                        <div class="text-xs text-mid mt-4" style="opacity: 0.5;">Livehouse Shows</div>
+                    </div>
+                    <div class="block bg-white anim-scale delay-4" style="padding: 20px;">
+                        <div class="text-sm text-dark text-bold">完整计划</div>
+                        <div class="text-xs text-jp text-mid mt-8">フルスケジュール</div>
+                        <div class="text-xs text-mid mt-4" style="opacity: 0.5;">Full Schedule</div>
+                    </div>
+                </div>
+                <div class="text-sm text-mid mt-24 anim-fade delay-5">一手资讯优先在此发布，各类视觉企划、企划MV、周边等相关企划，也将统一在此公示</div>
+                <div class="text-xs text-jp text-mid mt-8 anim-fade delay-6" style="opacity: 0.5;">ファーストハンド情報を優先してここで発表。ビジュアル企画、MV、グッズなども統一してここで公示</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 第二页 ==================== -->
+<div class="page" id="page2">
+    <div class="geo-guitar text-pink-dirty" style="top: 20%; right: 8%; transform: rotate(-20deg); animation: drift 11s ease-in-out infinite;"></div>
+    <div class="geo-drum text-pink-mid" style="bottom: 30%; left: 5%; animation: drift 13s ease-in-out infinite reverse;"></div>
+    <div class="geo-mic text-pink-light" style="top: 50%; right: 15%; transform: rotate(15deg); animation: drift 10s ease-in-out infinite;"></div>
+    <div class="geo-star text-pink-dirty" style="bottom: 15%; right: 25%; animation: drift 12s ease-in-out infinite;"></div>
+    <div class="geo-circle text-pink-mid" style="bottom: 10%; left: 30%; animation: breathe 7s ease-in-out infinite;"></div>
+    <div class="geo-line-h text-pink-light" style="bottom: 40%; left: 0; width: 25%; animation: lineGrow 2s ease-out 1s forwards;"></div>
+    <div class="geo-line-v text-pink-dirty" style="top: 0; left: 20%; height: 35%; animation: lineGrow 2s ease-out 1.5s forwards;"></div>
+    <div class="geo-dot text-pink-dirty" style="top: 25%; right: 30%; animation: dotPulse 3s ease-in-out 0.5s infinite;"></div>
+    <div class="geo-dot text-pink-light" style="bottom: 40%; left: 20%; animation: dotPulse 3s ease-in-out 1.5s infinite;"></div>
+
+    <div class="container" style="margin-top: 24px;">
+        <div class="text-xs text-upper text-pink-dirty mb-16 anim-fade delay-1" style="text-align: center; opacity: 0.7;">Band Formation · バンド編成</div>
+        <div class="circle-layout anim-fade">
+            <div class="circle-center anim-scale delay-3">
+                <div class="text-xs text-upper text-white" style="opacity: 0.7;">Fixed 5 · 固定五人</div>
+                <div class="deco-dots" style="justify-content: center; margin: 8px 0;"><span style="background: var(--white);"></span><span style="background: var(--white);"></span><span style="background: var(--white);"></span></div>
+                <div class="text-xl text-white text-bold">黛乱子</div>
+                <div class="text-xs text-jp text-white mt-8" style="opacity: 0.7;">ダイランスイ</div>
+            </div>
+            <div class="circle-satellite sat-1 block bg-pink-dirty anim-scale delay-1">
+                <div class="block-inner-center" style="padding: 24px;">
+                    <div class="text-xs text-upper text-white" style="opacity: 0.7;">Vocals · ボーカル</div>
+                    <div class="text-lg text-white text-bold mt-8">一男一女</div>
+                    <div class="text-xs text-white mt-8" style="opacity: 0.8;">双主唱</div>
+                    <div class="text-xs text-jp text-white mt-4" style="opacity: 0.5;">デュアルボーカル</div>
+                </div>
+            </div>
+            <div class="circle-satellite sat-2 block bg-pink-light anim-scale delay-2">
+                <div class="block-inner-center" style="padding: 24px;">
+                    <div class="text-xs text-upper text-mid" style="opacity: 0.7;">Guitar · ギター</div>
+                    <div class="text-lg text-dark text-bold mt-8">主伴奏音</div>
+                    <div class="text-xs text-dark mt-8" style="opacity: 0.8;">电吉他</div>
+                    <div class="text-xs text-jp text-mid mt-4" style="opacity: 0.5;">リードギター</div>
+                </div>
+            </div>
+            <div class="circle-satellite sat-3 block bg-pink-deep anim-scale delay-3">
+                <div class="block-inner-center" style="padding: 24px;">
+                    <div class="text-xs text-upper text-white" style="opacity: 0.7;">Bass · ベース</div>
+                    <div class="text-lg text-white text-bold mt-8">贝斯</div>
+                    <div class="text-xs text-white mt-8" style="opacity: 0.8;">Low End</div>
+                    <div class="text-xs text-jp text-white mt-4" style="opacity: 0.5;">ローエンド</div>
+                </div>
+            </div>
+            <div class="circle-satellite sat-4 block bg-pink-pale anim-scale delay-4">
+                <div class="block-inner-center" style="padding: 24px;">
+                    <div class="text-xs text-upper text-mid" style="opacity: 0.7;">Drums · ドラム</div>
+                    <div class="text-lg text-dark text-bold mt-8">架子鼓</div>
+                    <div class="text-xs text-dark mt-8" style="opacity: 0.8;">Rhythm</div>
+                    <div class="text-xs text-jp text-mid mt-4" style="opacity: 0.5;">リズム</div>
+                </div>
+            </div>
+            <div class="circle-satellite sat-5 block bg-pink-mid anim-scale delay-5">
+                <div class="block-inner-center" style="padding: 24px;">
+                    <div class="text-xs text-upper text-dark" style="opacity: 0.7;">Synth · シンセ</div>
+                    <div class="text-lg text-dark text-bold mt-8">合成器</div>
+                    <div class="text-xs text-dark mt-8" style="opacity: 0.8;">Atmosphere</div>
+                    <div class="text-xs text-jp text-mid mt-4" style="opacity: 0.5;">雰囲気</div>
+                </div>
+            </div>
+            <div class="circle-satellite sat-6 block bg-white anim-scale delay-6">
+                <div class="block-inner-center" style="padding: 24px;">
+                    <div class="text-xs text-upper text-pink-deep" style="opacity: 0.7;">Sound · サウンド</div>
+                    <div class="text-sm text-dark text-bold mt-8">双主唱形成两种声线对冲</div>
+                    <div class="text-xs text-jp text-mid mt-4" style="opacity: 0.5;">二つの声の対比</div>
+                </div>
+            </div>
+            <div class="circle-satellite sat-7 block bg-pink-dirty anim-scale delay-7">
+                <div class="block-inner-center" style="padding: 20px;">
+                    <div class="text-xs text-upper text-white" style="opacity: 0.7;">Aesthetic · 美学</div>
+                    <div class="text-sm text-white text-bold mt-8">柔嗓与撕裂唱腔交织</div>
+                    <div class="text-xs text-jp text-white mt-4" style="opacity: 0.5;">優しい声と引き裂く声</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="block bg-pink-deep anim-fade-up" style="min-height: 320px;">
+            <div class="block-inner">
+                <div class="text-xs text-upper text-white mb-16 anim-fade delay-1" style="opacity: 0.7;">Creative Perspective · 創作の視点</div>
+                <div class="deco-line" style="background: var(--white); opacity: 0.3;"></div>
+                <div class="text-xl text-white text-bold mt-16 anim-scale delay-2">乐队整体创作视角偏向主观向内自省</div>
+                <div class="text-md text-white mt-16 anim-fade-up delay-3">文字大量描摹自我拉扯与和解思考，极少向外，情绪表达源于成员自身的精神体验，乐队成立初期，创作思路深受两大熏陶：朦胧失真音墙的氛围逻辑及日系阴郁另类摇滚克制又撕裂的叙事唱腔、凄美破碎的故事化词曲结构，二者交织塑造了黛乱子独有的听觉底色</div>
+                <div class="text-sm text-jp text-white mt-16 anim-fade delay-4" style="opacity: 0.8;">バンド全体の創作視点は主観的で内省的。自己の葛藤と和解の思考を大量に描き、外向きではなく、メンバー自身の精神的体験から感情表現が生まれる。結成初期、創作思考は二つの影響を深く受けた：霞んだ歪み音壁の雰囲気論理と、日系の陰鬱なオルタナティブロックの抑えきれない引き裂くナラティブボーカル、美しく砕けた物語的詞曲構造。この二つが交錯し、黛乱子独自の聴覚的底色を形作った</div>
+                <div class="deco-line-long" style="background: var(--white); margin: 32px 0;"></div>
+                <div class="text-lg text-white text-bold anim-scale delay-5">将Grunge的粗粝冲击力与日系忧郁细腻的叙事感相融，形成区别于国内同类型盯鞋乐队的独特风格</div>
+                <div class="text-sm text-jp text-white mt-12 anim-fade delay-6" style="opacity: 0.7;">グランジの粗削りな衝撃力と日系の憂鬱で繊細なナラティブ感を融合させ、国内の同タイプシューゲイズバンドとは異なる独自のスタイルを形成する</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="grid-asymmetric">
+            <div class="block bg-pink-light anim-slide-left" style="min-height: 300px;">
+                <div class="block-inner">
+                    <div class="text-xs text-upper text-mid anim-fade delay-1" style="opacity: 0.7;">First Album Release Plan · ファーストアルバム発売計画</div>
+                    <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3;"></div>
+                    <div class="text-xl text-dark text-bold mt-16 anim-scale delay-2">首张实体专辑发售规划</div>
+                    <div class="text-md text-dark mt-16 anim-fade-up delay-3">乐队首张全长专辑将推出精装书，不会单独线上预售，仅在乐队首场线下专场演出现场线上线下同时发布发售精装书</div>
+                    <div class="text-sm text-jp text-mid mt-16 anim-fade delay-4">バンド初のフルアルバムはハードカバーブックとして発売。単独のオンライン予約販売はなく、バンド初のソロショー会場でオンライン・オフライン同時発売</div>
+                </div>
+            </div>
+            <div class="block bg-pink-dirty anim-scale delay-2" style="min-height: 300px;">
+                <div class="block-inner-center">
+                    <div class="text-xs text-upper text-white anim-fade delay-1" style="opacity: 0.7;">Format · フォーマット</div>
+                    <div class="deco-line" style="background: var(--white); opacity: 0.3; margin: 12px auto;"></div>
+                    <div class="text-xxl text-white mt-8 anim-scale delay-2">精装书</div>
+                    <div class="text-lg text-jp text-white mt-16 anim-scale delay-3">ハードカバーブック</div>
+                    <div class="text-sm text-white mt-24 anim-fade delay-4" style="opacity: 0.8;">No Online Pre-sale</div>
+                    <div class="text-xs text-jp text-white mt-8 anim-fade delay-5" style="opacity: 0.6;">オンライン予約販売なし</div>
+                    <div class="text-xs text-white mt-8 anim-fade delay-6" style="opacity: 0.5;">First Solo Show Only · 初ソロショーのみ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="block bg-white anim-fade-up" style="min-height: 260px;">
+            <div class="block-inner">
+                <div class="text-xs text-upper text-pink-deep anim-fade delay-1" style="opacity: 0.7;">Company Info · 会社情報</div>
+                <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3;"></div>
+                <div class="text-xl text-dark text-bold mt-16 anim-scale delay-2">阿拉加文化发展有限公司</div>
+                <div class="text-md text-dark mt-16 anim-fade-up delay-3">将于2028年正式落地，后续乐队商业化运营、长线巡演、音乐版权及后续专辑唱片发行、线下活动及合作等相关事宜，将由该公司统筹推进，同在此更新规划与落地进行</div>
+                <div class="text-sm text-jp text-mid mt-16 anim-fade delay-4">アラジャ文化発展有限公司は2028年に正式に設立。今後のバンド商業運営、長期ツアー、音楽著作権および後続アルバムの発売、オフラインイベントや協力などの関連事項は、同社が統合的に推進</div>
+                <div class="text-xs text-mid mt-24 anim-fade delay-5" style="opacity: 0.5;">Launch Year: 2028 · アラジャ文化 · Alajia Culture</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="block bg-pink-deep anim-shrink" style="min-height: 240px;">
+            <div class="block-inner-center">
+                <div class="text-xs text-upper text-white mb-16 anim-fade delay-1" style="opacity: 0.7;">Contact · 連絡先</div>
+                <div class="deco-dots" style="justify-content: center; margin-bottom: 16px;"><span style="background: var(--white);"></span><span style="background: var(--white);"></span><span style="background: var(--white);"></span></div>
+                <div class="text-xxl text-white anim-scale delay-2">对接邮箱</div>
+                <div class="text-xl text-white mt-24 anim-scale delay-3"><a href="mailto:dailuanzi@126.com" class="email">dailuanzi@126.com</a></div>
+                <div class="text-sm text-jp text-white mt-16 anim-fade delay-4" style="opacity: 0.7;">連絡用メールアドレス</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="grid-asymmetric-rev">
+            <div class="block bg-pink-dirty anim-slide-left" style="min-height: 300px;">
+                <div class="block-inner">
+                    <div class="text-xs text-upper text-white mb-16 anim-fade delay-1" style="opacity: 0.7;">Collaboration · コラボレーション</div>
+                    <div class="deco-line" style="background: var(--white); opacity: 0.3;"></div>
+                    <div class="text-lg text-white text-bold mt-16 anim-scale delay-2">欢迎以下合作</div>
+                    <div class="list-item text-md text-white anim-fade-up delay-3">音乐合作 · 音楽コラボレーション</div>
+                    <div class="list-item text-md text-white anim-fade-up delay-4">Live House邀约 · ライブハウス招待</div>
+                    <div class="list-item text-md text-white anim-fade-up delay-5">粉丝企划 · ファンプロジェクト</div>
+                </div>
+            </div>
+            <div class="block bg-pink-light anim-slide-right" style="min-height: 300px;">
+                <div class="block-inner">
+                    <div class="text-xs text-upper text-mid mb-16 anim-fade delay-1" style="opacity: 0.7;">Response · 返信</div>
+                    <div class="deco-line" style="background: var(--pink-deep); opacity: 0.3;"></div>
+                    <div class="text-lg text-dark text-bold mt-16 anim-scale delay-2">来信会逐一查阅</div>
+                    <div class="text-md text-dark mt-16 anim-fade-up delay-3">每一封邮件都会认真阅读与回复，期待与志同道合的伙伴共同创造</div>
+                    <div class="text-sm text-jp text-mid mt-16 anim-fade delay-4">すべてのメールを丁寧に読み、返信する。志を同じくする仲間と共に創作することを期待している</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px;">
+        <div class="block bg-pink-dirty anim-float" style="min-height: 160px;">
+            <div class="block-inner-center">
+                <div class="text-xs text-upper text-white mb-8 anim-fade delay-1" style="opacity: 0.7;">Contact · 連絡先</div>
+                <div class="deco-line" style="background: var(--white); opacity: 0.3; margin: 8px auto;"></div>
+                <div class="text-xl text-white anim-scale delay-2"><a href="mailto:AragaCulture@126.com" class="email">阿拉加: AragaCulture@126.com</a></div>
+                <div class="text-sm text-jp text-white mt-12 anim-fade delay-3" style="opacity: 0.8;">アラジャ連絡先</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 8px; margin-bottom: 24px;">
+        <div class="block bg-white anim-fade" style="min-height: 140px;">
+            <div class="block-inner-center">
+                <div class="text-sm text-pink-deep anim-scale delay-1">黛乱子乐队 DaiLuanZi Band</div>
+                <div class="deco-dots" style="justify-content: center; margin: 12px 0;"><span style="background: var(--pink-deep);"></span><span style="background: var(--pink-deep);"></span><span style="background: var(--pink-deep);"></span></div>
+                <div class="text-xs text-mid anim-fade delay-2">Chongqing · Yuzhong · Est. 2025.5.21</div>
+                <div class="text-xs text-jp text-mid mt-8 anim-fade delay-3" style="opacity: 0.5;">重慶 · 渝中区 · 2025年5月21日結成</div>
+                <div class="text-xs text-mid mt-8 anim-fade delay-4" style="opacity: 0.4;">All Rights Reserved</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
